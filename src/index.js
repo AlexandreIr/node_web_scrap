@@ -5,7 +5,13 @@ const url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-br
 
 request(url, function(err, response, html) {
     if(!err) {
-        console.log(html);
+        const results =[];
+        let $ = cheerio.load(html);
+        $('.tabela-expandir')
+        .find('tr')
+        .each(function(i) {
+            console.log(i+1);
+        })
     } else {
         console.log("Houve um problema ao abrir a url solicitada");
     }
