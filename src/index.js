@@ -1,3 +1,4 @@
+const fs = require('fs');
 const request = require ('request');
 const cheerio = require('cheerio');
 
@@ -10,7 +11,7 @@ request(url, function(err, response, html) {
         $('.tabela-expandir')
         .find('tr')
         .each(function(i) {
-            const escudo = $(this)
+            const shield = $(this)
             .find('td')
             .eq(0)
             .find('img')
@@ -53,8 +54,26 @@ request(url, function(err, response, html) {
             .eq(4)
             .text()
             .trim();
-        console.log(escudo);
-        })
+
+            if(games!==''){
+                results.push({
+                    position,
+                    shield,
+                    club,
+                    points,
+                    wins,
+                    draws,
+                    loses
+                });
+            }
+        });
+        fs.writeFile(
+            "results.json",
+            JSON.stringify(results, null, 4),
+            function(err){
+                console.log("Resultados salvos com sucesso, o arquivo está na raiz do projeto");
+            }
+        )
     } else {
         console.log("Houve um problema ao abrir a url solicitada");
     }
